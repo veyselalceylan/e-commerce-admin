@@ -1,0 +1,228 @@
+<div class="card">
+    <p-toast />
+
+    <p-table #dt [value]="orders" [rows]="10" [paginator]="true"[sortField]="'createdAt'" [sortOrder]="-1"
+        [globalFilterFields]="['key', 'customer.email', 'paymentDetail.id']" [tableStyle]="{ 'min-width': '75rem', 'font-size': '16px'  }"
+        [(selection)]="selectedOrders" [rowHover]="true" dataKey="key"[expandedRowKeys]="expandedRows" (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+      
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    <h5 class="m-0" style="font-size: 16px;">Manage Orders</h5>
+                </div>
+                <div class="flex flex-wrap justify-content-end gap-2">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text"  [(ngModel)]="searchValue"
+                        (input)="dt.filterGlobal(searchValue, 'contains')" 
+                            placeholder="Search..." />
+                    </span>
+                    <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" />
+                    <p-button label="Collapse All" icon="pi pi-minus" text (onClick)="collapseAll()" />
+                </div>
+            </div>
+           
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem">
+                </th>
+                <th pSortableColumn="orderId" style="min-width:15rem">
+                    Order Id <p-sortIcon field="orderId" />
+                </th>
+                <th pSortableColumn="createdDate" style="min-width:15rem">
+                    Created Date <p-sortIcon field="createdDate" />
+                </th>
+                <th pSortableColumn="name" style="min-width:15rem">
+                    Name <p-sortIcon field="name" />
+                </th>
+                <th pSortableColumn="surname" style="min-width:15rem">
+                    Surname <p-sortIcon field="surname" />
+                </th>
+                <th pSortableColumn="email" style="min-width:15rem">
+                    Email <p-sortIcon field="email" />
+                </th>
+                <th pSortableColumn="isAnonymous" style="min-width:15rem">
+                    isAnonymous <p-sortIcon field="isAnonymous" />
+                </th>
+                <th pSortableColumn="shippingPrice" style="min-width:15rem">
+                    Shipping Price <p-sortIcon field="shippingPrice" />
+                </th>
+                <th pSortableColumn="totalPrice" style="min-width:15rem">
+                    Total Price <p-sortIcon field="totalPrice" />
+                </th>
+              
+                <th pSortableColumn="status" style="min-width:15rem">
+                    Payment Status <p-sortIcon field="status" />
+                </th>
+                <th pSortableColumn="paymentMethod" style="min-width:15rem">
+                    Payment Method <p-sortIcon field="paymentMethod" />
+                </th>
+                <th pSortableColumn="paymentId" style="min-width:15rem">
+                    Payment Id <p-sortIcon field="paymentId" />
+                </th>
+                <th pSortableColumn="shippingAddress" style="min-width:15rem">
+                    Address <p-sortIcon field="shippingAddress" />
+                </th>
+                <th pSortableColumn="shippingCompany" style="min-width:15rem">
+                    Company <p-sortIcon field="shippingCompany" />
+                </th>
+                <th pSortableColumn="shippingCargoId" style="min-width:15rem">
+                    Cargo Id <p-sortIcon field="shippingCargoId" />
+                </th>
+                <th pSortableColumn="shippingStatus" style="min-width:15rem">
+                    Shipping Status <p-sortIcon field="shippingStatus" />
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order let-expanded="expanded">
+            <tr>
+                <td>
+                    <p-button type="button" pRipple [pRowToggler]="order" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                </td>
+                <td>
+                    {{ order.key }}
+                </td>
+                <td>
+                    {{ order.createdAt | date: 'dd/MM/yyyy, HH:mm' }}
+                </td>
+                <td>
+                    {{ order.customer.name }}
+                </td>
+                <td>
+                    {{ order.customer.surname }}
+                </td>
+                <td>
+                    {{ order.customer.email }}
+                </td>
+                <td>
+                    <p-tag [value]="order.customer.isAnonymous" [severity]="getCustomerTypeSeverity(order.customer.isAnonymous)" />
+                </td>
+                <td>
+                    {{ order.shippingPrice | currency: 'AUD ' }}
+                </td>
+                <td>
+                    {{ order.totalPrice | currency: 'AUD ' }}
+                </td>
+               
+                <td>
+                    <p-tag [value]="order.status" [severity]="getPaymentStatusSeverity(order.status)" />
+                </td>
+                <td>
+                    <div *ngIf="order.paymentDetail.method === 'afterpay'" class="afterpay">
+                        <img src="assets/afterpay.png" alt="Afterpay Logo" style="height: 25px;" />
+                    </div>
+                    <div *ngIf="order.paymentDetail.method === 'card' || order.paymentDetail.method === 'credit'" class="credit">
+                        <img src="assets/visa_master.png" alt="Card Logo"
+                            style="height: 25px;" />
+                    </div>
+                    <div *ngIf="order.paymentDetail.method === 'paypal'" class="paypal">
+                        <img src="assets/paypal.png" alt="Paypal Logo" style="height: 25px;" />
+                    </div>
+                </td>
+                <td>
+                    {{ order.paymentDetail.id }}
+                </td>
+                <td>
+                    {{ order.paymentDetail.shipping.line1 }}, {{ order.paymentDetail.shipping.city }}, 
+                    {{ order.paymentDetail.shipping.postal_code }}, {{ order.paymentDetail.shipping.state }}
+                </td>
+                <td>
+                    {{ order.paymentDetail.company }}
+                </td>
+                <td>
+                    {{ order.paymentDetail.cargoId }}
+                </td>
+                <td>
+                    <p-tag [value]="order.paymentDetail.shippingStatus" [severity]="getShippingStatusSeverity(order.paymentDetail.shippingStatus)" />
+                </td>
+                <td>
+                    <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
+                        (onClick)="editOrder(order)" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-order>
+            <tr>
+                <td colspan="7">
+                    <div class="p-3">
+                        <p-table [value]="order.products" dataKey="id">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th pSortableColumn="id">Id <p-sortIcon field="code" /></th>
+                                    <th>Image Url</th>
+                                    <th pSortableColumn="countOfProduct">Count Of Product <p-sortIcon field="countOfProduct" /></th>
+                                    <th pSortableColumn="note">Note <p-sortIcon field="note" /></th>
+                                    <th pSortableColumn="description">Description <p-sortIcon field="description" /></th>
+                                    <th pSortableColumn="selectedTag">Size <p-sortIcon field="selectedTag" /></th>
+                                    <th pSortableColumn="uploadImagesUrl">Uploaded Photos <p-sortIcon field="uploadImagesUrl" /></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product>
+                                <tr>
+                                    <td>{{ product.code }}</td>
+                                    <td> <img [src]="product.productImageUrl" [alt]="product.code" width="50" class="shadow-4" /></td>
+                                    <td>{{ product.countOfProduct }}</td>
+                                    <td>{{ product.note }}</td>
+                                    <td>{{ product.description}}</td>
+                                    <td>
+                                        <p-tag [value]="product.selectedTag" [severity]="getSizeSeverity(product.selectedTag)" />
+                                    </td>
+                                    <td><p-button type="button" icon="pi pi-download" (onClick)="downloadPhotos(product.uploadImagesUrl)" /></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{ orders ? orders.length : 0 }} orders.
+            </div>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="orderDialog" [style]="{ width: '650px' }" header="Order Details" [modal]="true"
+        styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="cargoCompany">Cargo Company</label>
+                <input type="text" pInputText id="name" [(ngModel)]="order.paymentDetail.company" required autofocus />
+                <small class="p-error" *ngIf="submitted && !order.paymentDetail.company">
+                    Company Name is required.
+                </small>
+            </div>
+            <div class="field">
+                <label for="cargoId">Cargo Id</label>
+                <input type="text" pInputText id="cargoId" [(ngModel)]="order.paymentDetail.cargoId" required
+                    autofocus />
+                <small class="p-error" *ngIf="submitted && !order.paymentDetail.cargoId">
+                    CargoId is required.
+                </small>
+            </div>
+            <div class="field">
+                <label class="mb-3">Shipping Status</label>
+                <div class="formgrid grid">
+                    <div class="field-radiobutton col-6">
+                        <p-radioButton id="pending" name="Pending" value="pending" [(ngModel)]="order.paymentDetail.shippingStatus" />
+                        <label for="pending">Pending</label>
+                    </div>
+                    <div class="field-radiobutton col-6">
+                        <p-radioButton id="completed" name="Completed" value="completed" [(ngModel)]="order.paymentDetail.shippingStatus" />
+                        <label for="completed">Completed</label>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <p-button label="Cancel" icon="pi pi-times" [text]="true" (onClick)="hideDialog()" />
+            <p-button label="Save" icon="pi pi-check" [text]="true" (onClick)="saveOrder()" />
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '450px' }" />
+</div>

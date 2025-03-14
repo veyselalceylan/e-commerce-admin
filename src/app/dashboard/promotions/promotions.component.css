@@ -1,0 +1,38 @@
+.field {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.field input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+:host ::ng-deep .p-inputnumber {
+  width: 100%;
+}
+
+:host ::ng-deep .p-autocomplete {
+  width: 100%;
+}
+
+:host ::ng-deep .p-button {
+  width: 100%;
+}
+
+:host ::ng-deep .p-calendar {
+  width: 100%;
+}
+:host ::ng-deep .p-inputtext {
+  width: 100%;
+}
+
+:host ::ng-deep .p-dialog-footer{
+  display: flex;
+}

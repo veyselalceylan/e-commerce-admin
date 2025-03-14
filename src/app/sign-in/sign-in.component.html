@@ -1,0 +1,42 @@
+<p-toast />
+<p-confirmDialog />
+<div class="flex flex-wrap" style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;">
+   
+    <!-- Sol Bölüm -->
+    <div class="flex flex-column justify-content-center surface-section w-full md:w-6 p-6 md:p-8">
+        <div class="mb-5">
+            <div class="text-900 text-3xl font-medium mb-3">Welcome OnyxNthings Admin</div>
+            <a class="font-medium no-underline text-blue-500">Create Products, Watch Orders</a>
+        </div>
+        
+        <div>
+            <label for="email" class="block text-900 font-medium mb-2">Email</label>
+            <input id="email" type="text" placeholder="onyxnthings@gmail.com" [(ngModel)]="email" pinputtext="" class="p-inputtext p-component w-full mb-3 p-3">
+            
+            <label for="password" class="block text-900 font-medium mb-2">Password</label>
+            <input id="password" type="password" placeholder="Password" [(ngModel)]="password" pinputtext="" class="p-inputtext p-component w-full mb-3 p-3">
+            
+            <div class="flex align-items-center justify-content-between mb-6">
+                <div class="flex align-items-center">
+                    <p-checkbox id="rememberme2" styleclass="mr-2" class="p-element">
+                        <div class="mr-2 p-checkbox p-component">
+                            <div class="p-hidden-accessible">
+                                <input type="checkbox" value="undefined" aria-checked="false">
+                            </div>
+                            <div class="p-checkbox-box"></div>
+                        </div>
+                    </p-checkbox>
+                    <label for="rememberme2">Remind Me</label>
+                </div>
+            </div>
+            
+            <button pbutton="" pripple="" label="Sign In" icon="pi pi-user" class="p-ripple w-full p-3 p-button" (click)="signIn(email, password)">
+                <span class="p-button-icon p-button-icon-left pi pi-user" aria-hidden="true"></span>
+                <span class="p-button-label">Sign In</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Sağ Bölüm (Görsel) -->
+    <div class="hidden md:block w-6 bg-no-repeat bg-cover" style="background-image: url('/assets/signin.jpg');"></div>
+</div>

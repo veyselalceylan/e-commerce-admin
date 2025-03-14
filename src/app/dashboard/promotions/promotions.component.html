@@ -1,0 +1,92 @@
+<div class="flex flex-column gap-3">
+    <div class="flex">
+        <p-table #dt [value]="promotions" [rows]="10" [paginator]="true"
+            [globalFilterFields]="['store', 'discount', 'key', 'date']" class="w-full"
+            [tableStyle]="{ 'min-width': '75rem', 'font-size': '16px' }" 
+            [rowHover]="true" dataKey="id"  [(selection)]="selectedPromotions"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <div class="flex flex-row gap-2">
+                        <p-button label="Create Promotion" (onClick)="openDialog()"></p-button>
+                        <p-button label="Delete Promotion" severity="danger" *ngIf="selectedPromotions.length" (onClick)="deletePromotions()"></p-button>
+                    </div>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" [(ngModel)]="searchValue"
+                            (input)="dt.filterGlobal(searchValue, 'contains')" placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 4rem">
+                        <p-tableHeaderCheckbox />
+                    </th>
+                    <th pSortableColumn="store" style="min-width:15rem">
+                        Store <p-sortIcon field="store" />
+                    </th>
+                    <th pSortableColumn="email" style="min-width:15rem">
+                        email<p-sortIcon field="email" />
+                    </th>
+                    <th pSortableColumn="discount" style="min-width:15rem">
+                        Discount <p-sortIcon field="discount" />
+                    </th>
+                    <th pSortableColumn="key" style="min-width:15rem">
+                        Promotion Code <p-sortIcon field="key" />
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-promotion>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="promotion" />
+                    </td>
+                    <td>
+                        {{ promotion.store }}
+                    </td>
+                    <td>
+                        {{ promotion.email }}
+                    </td>
+                    <td>
+                        {{ promotion.discount }}
+                    </td>
+                    <td>
+                        {{ promotion.promotionCode }}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    In total there are {{ promotions ? promotions.length : 0 }} promotions.
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+    <p-dialog [(visible)]="promotionDialog" [style]="{ width: '650px',}" header="Promotion Details"
+    [modal]="true" styleClass="p-fluid">
+        <div class="flex flex-column gap-2 w-full p-3">
+            <div class="field ">
+                <label>Store</label>
+                <p-autoComplete [(ngModel)]="store" placeholder="store" [suggestions]="storeSuggestions"
+                    (completeMethod)="search($event)" required/>
+            </div>
+            <div class="field ">
+                <label>Email</label>
+                <input type="text" pInputText placeholder="store@onyxnthings.com.au" [(ngModel)]="email" required
+                autofocus />
+            </div>
+            <div class="field">
+                <label>Discount (%)</label>
+                <p-inputNumber inputId="integeronly" placeholder="20" [(ngModel)]="discount" required></p-inputNumber>
+            </div>
+            <p-button label="Save Promotion Code(s)" class=" align-content-end"
+                [disabled]="!store || !discount" (onClick)="createCode($event)"></p-button>
+        </div>
+    </p-dialog>
+</div>
+<p-toast />
+<p-confirmDialog />

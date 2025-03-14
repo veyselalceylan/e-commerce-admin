@@ -1,0 +1,17 @@
+
+<div class="card">
+    <p-menubar [model]="items" />
+</div>
+<router-outlet></router-outlet>
+
+<p-dialog [(visible)]="showPricePopup" [style]="{ width: '450px' }" header="Price Details" [modal]="true"
+        styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <p-button label="Cancel" icon="pi pi-times" [text]="true" (onClick)="hideDialog()" />
+            <p-button label="Save" icon="pi pi-check" [text]="true" (onClick)="saveOrder()" />
+        </ng-template>
+    </p-dialog>

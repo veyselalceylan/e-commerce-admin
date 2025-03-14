@@ -1,0 +1,80 @@
+:host ::ng-deep .p-dialog .product-image {
+    width: 150px;
+    margin: 0 auto 2rem auto;
+    display: block;
+}
+:host ::ng-deep .p-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding: 5px;
+}
+
+.paypal-button {
+    background-color: rgb(255, 196, 57);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, cursor 0.3s ease;
+  }
+  
+  .paypal {
+    background-color: rgb(255, 196, 57);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, cursor 0.3s ease;
+  }
+  
+  .paypal img {
+    height: 20px;
+    margin-left: -35px;
+  }
+  
+  .paypal-button img {
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .paypal-button:hover {
+    background-color: rgb(255, 173, 32);
+    cursor: pointer;
+  }
+  
+  .afterpay-button {
+    background-color: rgb(178 252 229);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, cursor 0.3s ease;
+  }
+  
+  .afterpay {
+    background-color: rgb(178 252 229);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+  
+  .afterpay-button img {
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .afterpay-button:hover {
+    background-color: rgb(140, 200, 180);
+    cursor: pointer;
+  }
